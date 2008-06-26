@@ -40,6 +40,9 @@ Yes, it will be released soon.
 = Does this plugin work with Wordpress versions &lt; 2.5? =
 It's functional, but there are some layout issues. Fixing this is planned for the next release.
 
+= I'm having trouble using this plugin. How can I reach you? =
+Please leave me a comment at the [Microkids Related Posts](http://www.microkid.net/wordpress/related-posts/ "Microkids Related Posts") homepage.
+
 == Screenshots ==
 
 1. The plugin will appear under "Advanced options" in the write/edit post screen.
