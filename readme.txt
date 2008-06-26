@@ -26,11 +26,11 @@ This plugin makes it super easy to manually select related posts. You can search
 1. Activate the plugin through the Wordpress admin,
 1. Add this PHP code to your theme files to show a `<ul>` list of related posts:
 
-	`<?php if( function_exists("RP_show_related_posts") ) RP_show_related_posts(); ?>`
+	`<?php if( function_exists("MRP_show_related_posts") ) MRP_show_related_posts(); ?>`
 
 1. Or, if you’re looking for further integration, use this to grab the IDs of related posts:
 
-	`RP_get_related_posts( $post_id );`
+	`MRP_get_related_posts( $post_id );`
 
 == Frequently Asked Questions == 
 
