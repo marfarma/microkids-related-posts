@@ -5,7 +5,7 @@ var MRP_search_tool_visible = false;
 jQuery(document).ready(function($){  
 	$("#MRP_search").keyup(function(){
 		if( $("#MRP_search").val() != '' ) {
-			$("#MRP_results").load("/wp-content/plugins/microkids-related-posts/mrp-search.php?mrp_s=" + escape( $("#MRP_search").val() ), '', 
+			$("#MRP_results").load("../wp-content/plugins/microkids-related-posts/mrp-search.php?mrp_s=" + escape( $("#MRP_search").val() ), '', 
 				function() { $("#MRP_results li .MRP_result").each(function(i) {
 						$(this).click(function() {
 
