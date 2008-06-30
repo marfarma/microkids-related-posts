@@ -183,8 +183,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	
 	function MRP_load_includes() {
 		
-		echo '<script type="text/javascript" src="'.get_bloginfo('siteurl').'/wp-content/plugins/microkids-related-posts/microkids-related-posts.js"></script>'; 
-		echo '<link rel="stylesheet" type="text/css" href="'.get_bloginfo('url').'/wp-content/plugins/microkids-related-posts/microkids-related-posts.css" />';
+		echo '<script type="text/javascript" src="'.get_option('siteurl').'/wp-content/plugins/microkids-related-posts/microkids-related-posts.js"></script>'; 
+		echo '<link rel="stylesheet" type="text/css" href="'.get_option('siteurl').'/wp-content/plugins/microkids-related-posts/microkids-related-posts.css" />';
 	
 	}
 	

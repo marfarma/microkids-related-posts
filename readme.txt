@@ -3,7 +3,7 @@ Contributors: microkid
 Tags: related posts, related post, relations, cross reference, reciprocal
 Requires at least: 2.5
 Tested up to: 2.5.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 Microkid's Related Posts plugin lets you manually select related posts using a nifty AJAX powered search utility.
 
@@ -28,7 +28,7 @@ This plugin makes it super easy to manually select related posts. You can search
 
 	`<?php if( function_exists("MRP_show_related_posts") ) MRP_show_related_posts(); ?>`
 
-1. Or, if you’re looking for further integration, use this to grab the IDs of related posts:
+1. Or, if you're looking for further integration, use this to grab the IDs of related posts:
 
 	`MRP_get_related_posts( $post_id );`
 
