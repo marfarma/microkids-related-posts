@@ -47,3 +47,8 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 
 1. The plugin will appear under "Advanced options" in the write/edit post screen.
 
+== Change Log ==
+
+= 1.1 =
+
+* Fixed a small issue with the paths to the .js and .css files which made the plugin break on blogs that reside in subdirectories. 
