@@ -14,8 +14,13 @@ if( isset( $_GET['mrp_s'] ) ) {
 
 	global $wpdb;
 	$s = $wpdb->escape( $_GET['mrp_s'] );
-
-	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND post_type = 'post' ORDER BY post_date DESC";
+	
+	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND post_type = 'post' AND post_status = 'publish' ";
+	if( $_GET['mrp_id'] ) {
+		$this_id = (int) $_GET['mrp_id'];
+		$query .= " AND ID != $this_id ";
+	}
+	$query .= "ORDER BY post_date DESC";
 	$results = $wpdb->get_results( $query );
 	
 	if( $results ) {
