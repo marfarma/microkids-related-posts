@@ -50,7 +50,8 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 == Screenshots ==
 
 1. The plugin will appear in the write/edit post screen.
-2. The options page
+2. The Related Posts options page
+3. The Related Posts widget
 
 == Change Log ==
 
