@@ -1,18 +1,26 @@
 <?php
 
-	if( isset( $_GET['mrp_s'] ) ) {
+	// This file is called using AJAX
+	// when searching for related posts
+	
+if( isset( $_GET['mrp_s'] ) ) {
 	
 	require('../../../wp-config.php');
 	
-	// Let's keep this a tool for logged in users
+		// Let's keep this a tool for logged in users
 	if( ! current_user_can("edit_posts") ) {
 		die('Please log in');
 	}
 
 	global $wpdb;
 	$s = $wpdb->escape( $_GET['mrp_s'] );
-
-	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND post_type = 'post' ORDER BY post_date DESC";
+	
+	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND post_type = 'post' AND post_status = 'publish' ";
+	if( $_GET['mrp_id'] ) {
+		$this_id = (int) $_GET['mrp_id'];
+		$query .= " AND ID != $this_id ";
+	}
+	$query .= "ORDER BY post_date DESC";
 	$results = $wpdb->get_results( $query );
 	
 	if( $results ) {
@@ -27,7 +35,8 @@
 			$n++;
 		}
 		echo "</ul>";
-	
+
 	}
 }
+
 ?>
