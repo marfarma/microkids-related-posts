@@ -15,7 +15,7 @@ if( isset( $_GET['mrp_s'] ) ) {
 	global $wpdb;
 	$s = $wpdb->escape( $_GET['mrp_s'] );
 	
-	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND post_type = 'post' AND post_status = 'publish' ";
+	$query = "SELECT ID, post_title, post_type FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND ( post_type = 'post' OR post_type = 'page' ) AND post_status = 'publish'";
 	if( $_GET['mrp_id'] ) {
 		$this_id = (int) $_GET['mrp_id'];
 		$query .= " AND ID != $this_id ";
@@ -31,7 +31,11 @@ if( isset( $_GET['mrp_s'] ) ) {
 			
 			echo '<li';
 			echo ( $n % 2 ) ? ' class="alt"' : '';
-			echo '><a href="javascript:void(0)" id="result-'.$result->ID.'" class="MRP_result">'.$result->post_title.'</a> <a href="'.get_permalink( $result->ID ).'" title="View this post" class="MRP_view_post">&rsaquo;</a></li>';
+			echo '> <a href="javascript:void(0)" id="result-'.$result->ID.'" class="MRP_result">';
+			if( $result->post_type == 'page') {
+				echo "<strong>[Page]</strong> - ";
+			}
+			echo $result->post_title.'</a> <a href="'.get_permalink( $result->ID ).'" title="View this post" class="MRP_view_post">&rsaquo;</a></li>';
 			$n++;
 		}
 		echo "</ul>";

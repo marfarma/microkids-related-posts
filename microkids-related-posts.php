@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Manually add related posts
 Author: Microkid
-Version: 2.0rc1
+Version: 2.0
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -68,7 +68,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		Advances Options on the post write/edit page
 	*/
 	function MRP_add_custom_box() {
-		add_meta_box( 'MRP_sectionid', __( 'Related Posts', 'MRP_textdomain' ), 'MRP_inner_custom_box', 'post', 'advanced' );
+		add_meta_box( 'MRP_sectionid', __( 'Related Posts', 'MRP_textdomain' ), 'MRP_inner_custom_box', 'post', 'normal' );
+		add_meta_box( 'MRP_sectionid', __( 'Related Posts', 'MRP_textdomain' ), 'MRP_inner_custom_box', 'page', 'normal' );
 	 }
 	function MRP_load_includes() {
 		
@@ -91,7 +92,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 			
 				foreach( $related_posts as $related_post_id => $related_post_title ) {
 				
-					echo '<li id="related-post-'.$related_post_id.'"><span>'.$related_post_title.'</span><span><a class="MRP_deletebtn" onclick="MRP_remove_relation(\'related-post-'.$related_post_id.'\')">X</a></span>';
+					echo '<li id="related-post-'.$related_post_id.'"><span>'.$related_post_title.'</span><span><a class="MRP_deletebtn" onclick="MRP_remove_relationship(\'related-post-'.$related_post_id.'\')">X</a></span>';
 					echo '<input type="hidden" name="MRP_related_posts[]" value="'.$related_post_id.'" /></li>';
 				
 				}			
@@ -124,12 +125,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		if ( !current_user_can( 'edit_post', $post_id ))
 			return $post_id;
 		}
-	
-		if( count( $_POST['MRP_related_posts'] ) ) {
 		
-			MRP_save_relationships( $post_id, $_POST['MRP_related_posts'] );
+		MRP_save_relationships( $post_id, $_POST['MRP_related_posts'] );
 		
-		}
 	}
 	
 	/*------------
@@ -140,23 +138,18 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		global $wpdb;
 		
 			// First delete the relationships that were there before
-		$ids_string = "";
-		foreach( $related_posts as $related_posts_id ) {
-			$ids_string .= "$related_posts_id, ";
-		}
-		$ids_string = substr( 0, -2, $ids_string );
-		$query = "DELETE FROM ".$wpdb->prefix."post_relationships WHERE post1_id = $post_id OR post2_id = $post_id";
-		$result = $wpdb->query( $query ); 
+		MRP_delete_relationships( $post_id ); 
 		
 			// Now add/update the relations
-		foreach( $related_posts as $related_post ) {
-		
-			$related_post = (int) $related_post;
-			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES( $post_id, $related_post )";
-			$result = $wpdb->query( $query );
+		if( $related_posts ) {
+			foreach( $related_posts as $related_post ) {
 			
-		}
-	
+				$related_post = (int) $related_post;
+				$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES( $post_id, $related_post )";
+				$result = $wpdb->query( $query );
+				
+			}
+		}	
 	}
 	/*------------
 		Delete relations
@@ -178,7 +171,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	
 		global $wpdb;
 		
-		$query = "SELECT ".$wpdb->prefix."post_relationships.post1_id, ".$wpdb->prefix."post_relationships.post2_id FROM ".$wpdb->prefix."post_relationships WHERE ".$wpdb->prefix."post_relationships.post1_id = $post_id OR ".$wpdb->prefix."post_relationships.post2_id = $post_id";
+		$query = "SELECT ".$wpdb->prefix."post_relationships.post1_id, ".$wpdb->prefix."post_relationships.post2_id FROM ".$wpdb->prefix."post_relationships WHERE ".$wpdb->prefix."post_relationships.post1_id = $post_id OR ".$wpdb->prefix."post_relationships.post2_id = $post_id ORDER BY post2_id DESC";
 		$results = $wpdb->get_results( $query );
 				
 			// If anyone out there has any bright ideas on a better solution for the following,
@@ -228,7 +221,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	*/
 	function MRP_auto_related_posts( $content ) {
 	
-		if( is_single() ) {
+		if( is_single() || is_page() ) {
 		
 			$options = get_option("MRP_options");
 			
@@ -420,7 +413,7 @@ function MRP_disable_empty_text() {
 <p>These settings let you customize the presentation of the list of related posts. If you're using a theme that supports it, you can also use the Related Posts <a href="widgets.php" title="Manage widgets">widget</a>.</p>
 <table class="form-table">
 <tr valign="top">
-<th scope="row" style="width:300px;">Display related posts automatically underneat the post content?</th>
+<th scope="row" style="width:300px;">Display related posts automatically underneath the post content?</th>
 <td>
 	<p><input name="MRP_display_auto" type="radio" id="MRP_display_true" value="1"<? if( $options['display_auto'] ) : ?> checked="checked"<? endif; ?> /> <label for="MRP_display_true">Yes</label></p>
 	<p><input name="MRP_display_auto" type="radio" id="MRP_display_false" value="0"<? if( !$options['display_auto'] ) : ?>checked="checked"<? endif; ?> /> <label for="MRP_display_false">No, I will use the widget or implement the necessary PHP code in my theme file(s).</label></p>
@@ -472,7 +465,7 @@ function MRP_disable_empty_text() {
 	
 	add_action('admin_menu', 'MRP_add_custom_box');
 	add_action('admin_menu', 'MRP_add_options_page');
-	add_action('save_post', 'MRP_save_postdata');
+	add_action('save_post', 'MRP_save_postdata'); 
 	add_action('admin_head','MRP_load_includes');
 	add_action("delete_post", "MRP_delete_relationships");
 	add_action("widgets_init", "MRP_load_widget");
