@@ -2,7 +2,7 @@
 Contributors: microkid
 Tags: related, posts, seo, content, articles
 Requires at least: 2.5
-Tested up to: 2.5.1
+Tested up to: 2.6
 Stable tag: trunk
 
 Increase your pageviews and SEO by manually selecting related posts for your content.
