@@ -68,3 +68,7 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
  * Custom message to display when there are no related posts, with the option no displaying anything at all (no text, no code)
 * Added widget support
 * Added support for adding related pages
+
+= 2.1 =
+
+* Solved an issue where in WP 2.6 a relationships with revisions were created when editing a post.

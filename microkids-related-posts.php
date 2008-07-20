@@ -125,6 +125,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		if ( !current_user_can( 'edit_post', $post_id ))
 			return $post_id;
 		}
+			// Do not create a relationship with the revisions in WP 2.6
+		if( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+			return $post_id;	
+		}
 		
 		MRP_save_relationships( $post_id, $_POST['MRP_related_posts'] );
 		
