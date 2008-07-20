@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Manually add related posts
 Author: Microkid
-Version: 2.0
+Version: 2.1
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
