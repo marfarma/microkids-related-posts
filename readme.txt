@@ -55,12 +55,10 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 
 == Change Log ==
 
-= 1.1 =
-
-* Fixed a small issue with the paths to the .js and .css files which made the plugin break on blogs that reside in subdirectories.
+= 2.1 =
+* Solved an issue where in WP 2.6 relationships with revisions were created when editing a post.
 
 = 2.0 =
-
 * Added the option to display related posts underneath your post content automatically
 * Added the extended customization options for the way the list of related posts is displayed:
  * Using a custom title
@@ -69,6 +67,5 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 * Added widget support
 * Added support for adding related pages
 
-= 2.1 =
-
-* Solved an issue where in WP 2.6 a relationships with revisions were created when editing a post.
+= 1.1 =
+* Fixed a small issue with the paths to the .js and .css files which made the plugin break on blogs that reside in subdirectories.
