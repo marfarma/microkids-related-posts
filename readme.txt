@@ -55,6 +55,9 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 
 == Change Log ==
 
+= 2.1.1 =
+* Solved an issue with shorthand PHP tags.
+
 = 2.1 =
 * Solved an issue where in WP 2.6 relationships with revisions were created when editing a post.
 

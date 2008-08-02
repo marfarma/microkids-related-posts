@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Manually add related posts
 Author: Microkid
-Version: 2.1
+Version: 2.1.1
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -119,11 +119,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		}
 	
 		if ( 'page' == $_POST['post_type'] ) {
-			if ( !current_user_can( 'edit_page', $post_id ))
-			return $post_id;
-		} else {
-		if ( !current_user_can( 'edit_post', $post_id ))
-			return $post_id;
+			if ( !current_user_can( 'edit_page', $post_id )) {
+				return $post_id;
+			}
+		}
+		else {
+			if ( !current_user_can( 'edit_post', $post_id )) {
+				return $post_id;
+			}
 		}
 			// Do not create a relationship with the revisions in WP 2.6
 		if( function_exists("wp_is_post_revision") ) {
@@ -361,8 +364,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		 
 		<p><label for="pages-title"><?php _e('Title:'); ?></label> <input class="widefat" id="MRP_widget_title" name="MRP_widget_title" type="text" value="<?php echo $title; ?>" /></p>
 		<p><label for=""><?php _e('If there are no related posts:'); ?></label></p>
-		<p><input type="radio" name="MRP_hide_if_empty" value="1" id="MRP_hide_if_empty_true"<? if($hide_if_empty) : ?> checked="checked"<? endif; ?> /> <label for="MRP_hide_if_empty_true">Hide the entire widget</label></p>
-		<p><input type="radio" name="MRP_hide_if_empty" value="0" id="MRP_hide_if_empty_false"<? if(!$hide_if_empty) : ?>checked="checked"<? endif; ?> /> <label for="MRP_hide_if_empty_false">Show this text:</label>
+		<p><input type="radio" name="MRP_hide_if_empty" value="1" id="MRP_hide_if_empty_true"<?php if($hide_if_empty) : ?> checked="checked"<?php endif; ?> /> <label for="MRP_hide_if_empty_true">Hide the entire widget</label></p>
+		<p><input type="radio" name="MRP_hide_if_empty" value="0" id="MRP_hide_if_empty_false"<?php if(!$hide_if_empty) : ?>checked="checked"<?php endif; ?> /> <label for="MRP_hide_if_empty_false">Show this text:</label>
 		
 		<input class="widefat" id="MRP_text_if_empty" name="MRP_text_if_empty" type="text" value="<?php echo $text_if_empty; ?>" /></p>
 		<input type="hidden" id="MRP_submit" name="MRP_submit" value="1" />
@@ -421,8 +424,8 @@ function MRP_disable_empty_text() {
 <tr valign="top">
 <th scope="row" style="width:300px;">Display related posts automatically underneath the post content?</th>
 <td>
-	<p><input name="MRP_display_auto" type="radio" id="MRP_display_true" value="1"<? if( $options['display_auto'] ) : ?> checked="checked"<? endif; ?> /> <label for="MRP_display_true">Yes</label></p>
-	<p><input name="MRP_display_auto" type="radio" id="MRP_display_false" value="0"<? if( !$options['display_auto'] ) : ?>checked="checked"<? endif; ?> /> <label for="MRP_display_false">No, I will use the widget or implement the necessary PHP code in my theme file(s).</label></p>
+	<p><input name="MRP_display_auto" type="radio" id="MRP_display_true" value="1"<?php if( $options['display_auto'] ) : ?> checked="checked"<?php endif; ?> /> <label for="MRP_display_true">Yes</label></p>
+	<p><input name="MRP_display_auto" type="radio" id="MRP_display_false" value="0"<?php if( !$options['display_auto'] ) : ?>checked="checked"<?php endif; ?> /> <label for="MRP_display_false">No, I will use the widget or implement the necessary PHP code in my theme file(s).</label></p>
 </td>
 
 </tr>
@@ -433,12 +436,12 @@ function MRP_disable_empty_text() {
 	<p>
 		<label for="MRP_header_element">Using HTML header element: </label>
 		<select name="MRP_header_element" id="MRP_header_element" style="font-size: 80%">
-			<option value="h1" <? if( $options['header_element'] == 'h1' ) : ?>selected="selected"<? endif; ?>>&lt;h1&gt;</option>
-			<option value="h2" <? if( $options['header_element'] == 'h2' ) : ?>selected="selected"<? endif; ?>>&lt;h2&gt;</option>
-			<option value="h3" <? if( $options['header_element'] == 'h3' ) : ?>selected="selected"<? endif; ?>>&lt;h3&gt;</option>
-			<option value="h4" <? if( $options['header_element'] == 'h4' ) : ?>selected="selected"<? endif; ?>>&lt;h4&gt;</option>
-			<option value="h5" <? if( $options['header_element'] == 'h5' ) : ?>selected="selected"<? endif; ?>>&lt;h5&gt;</option>
-			<option value="h6" <? if( $options['header_element'] == 'h6' ) : ?>selected="selected"<? endif; ?>>&lt;h6&gt;</option>
+			<option value="h1" <?php if( $options['header_element'] == 'h1' ) : ?>selected="selected"<?php endif; ?>>&lt;h1&gt;</option>
+			<option value="h2" <?php if( $options['header_element'] == 'h2' ) : ?>selected="selected"<?php endif; ?>>&lt;h2&gt;</option>
+			<option value="h3" <?php if( $options['header_element'] == 'h3' ) : ?>selected="selected"<?php endif; ?>>&lt;h3&gt;</option>
+			<option value="h4" <?php if( $options['header_element'] == 'h4' ) : ?>selected="selected"<?php endif; ?>>&lt;h4&gt;</option>
+			<option value="h5" <?php if( $options['header_element'] == 'h5' ) : ?>selected="selected"<?php endif; ?>>&lt;h5&gt;</option>
+			<option value="h6" <?php if( $options['header_element'] == 'h6' ) : ?>selected="selected"<?php endif; ?>>&lt;h6&gt;</option>
 		</select>
 	</p>
 </td>
@@ -447,10 +450,10 @@ function MRP_disable_empty_text() {
 <tr valign="top">
 <th scope="row" style="width:300px;">What should be displayed when there are no related posts?</th>
 <td>
-	<p><input name="MRP_hide_if_empty" type="radio" id="MRP_hide_if_empty_true" value="1"<? if( $options['hide_if_empty'] ) : ?>checked="checked"<? endif; ?> onclick="MRP_disable_empty_text()" /> <label for="MRP_hide_if_empty_true" onclick="MRP_disable_empty_text()">Nothing</label></p>
+	<p><input name="MRP_hide_if_empty" type="radio" id="MRP_hide_if_empty_true" value="1"<?php if( $options['hide_if_empty'] ) : ?>checked="checked"<?php endif; ?> onclick="MRP_disable_empty_text()" /> <label for="MRP_hide_if_empty_true" onclick="MRP_disable_empty_text()">Nothing</label></p>
 	<p>
-		<input name="MRP_hide_if_empty" type="radio" id="MRP_hide_if_empty_false" value="0"<? if( !$options['hide_if_empty'] ) : ?>checked="checked"<? endif; ?> onclick="MRP_disable_empty_text()" /> <label for="MRP_hide_if_empty_false" onclick="MRP_disable_empty_text()">Show this text:</label>
-		<input type="text" name="MRP_text_if_empty" id="MRP_text_if_empty" value="<?=$options['text_if_empty']?>" <? if( $options['hide_if_empty'] ) : ?>disabled="disabled"<? endif; ?> style="width:250px;" />
+		<input name="MRP_hide_if_empty" type="radio" id="MRP_hide_if_empty_false" value="0"<?php if( !$options['hide_if_empty'] ) : ?>checked="checked"<?php endif; ?> onclick="MRP_disable_empty_text()" /> <label for="MRP_hide_if_empty_false" onclick="MRP_disable_empty_text()">Show this text:</label>
+		<input type="text" name="MRP_text_if_empty" id="MRP_text_if_empty" value="<?=$options['text_if_empty']?>" <?php if( $options['hide_if_empty'] ) : ?>disabled="disabled"<?php endif; ?> style="width:250px;" />
 	</p>
 </td>
 </tr>
@@ -459,7 +462,7 @@ function MRP_disable_empty_text() {
 <input name="MRP_options_submit" value="Save Changes" type="submit" />
 </p>
 </form>
-<?
+<?php
 	}
 	 
 	 
