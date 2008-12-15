@@ -15,7 +15,7 @@ if( isset( $_GET['mrp_s'] ) ) {
 	global $wpdb;
 	$s = $wpdb->escape( $_GET['mrp_s'] );
 	
-	$query = "SELECT ID, post_title, post_type FROM $wpdb->posts WHERE post_title LIKE '%$s%' AND ( post_type = 'post' OR post_type = 'page' ) AND post_status = 'publish'";
+	$query = "SELECT ID, post_title, post_type FROM $wpdb->posts WHERE ( post_title LIKE '%$s%' OR post_content LIKE '%$s%' ) AND ( post_type = 'post' OR post_type = 'page' ) AND post_status = 'publish'";
 	if( $_GET['mrp_id'] ) {
 		$this_id = (int) $_GET['mrp_id'];
 		$query .= " AND ID != $this_id ";

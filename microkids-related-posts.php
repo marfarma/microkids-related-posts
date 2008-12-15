@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Manually add related posts
 Author: Microkid
-Version: 2.1.1
+Version: 2.2
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -41,6 +41,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 			$defaults = array();
 			$defaults['display_auto'] = 1;
+			$defaults['display_reciprocal'] = 1;
 			$defaults['title'] = "Related Posts";
 			$defaults['header_element'] = "h2";
 			$defaults['hide_if_empty'] = 0;
@@ -97,7 +98,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 				
 				}			
 			
+			}			
+			else {
+			
+				echo '<li id="related-posts-replacement"><em>Use the search box below to select related posts</em></li>';
+			
 			}
+		}
+		else {
+			
+			echo '<li id="related-posts-replacement"><em style="color: #888">Use the search box below to select related posts</em></li>';
 		
 		}
 		echo '</ul>';
@@ -180,30 +190,49 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	
 		global $wpdb;
 		
-		$query = "SELECT ".$wpdb->prefix."post_relationships.post1_id, ".$wpdb->prefix."post_relationships.post2_id FROM ".$wpdb->prefix."post_relationships WHERE ".$wpdb->prefix."post_relationships.post1_id = $post_id OR ".$wpdb->prefix."post_relationships.post2_id = $post_id ORDER BY post2_id DESC";
+		$options = get_option("MRP_options");
+		
+		if($options['display_reciprocal']) {
+		
+			//
+        	// Newer, faster (and definitely more SQL like) way to fetch related postings
+        	// (Thanks Peter Raganitsch @ http://blog.oracleapex.at)
+        	// 
+			$query = "SELECT wp.ID ".
+                      ", wp.post_title ".
+                   "FROM ".$wpdb->prefix."post_relationships	wpr ".
+                       ",".$wpdb->prefix."posts						wp ".
+                  "WHERE wpr.post1_id = $post_id ".
+                    "AND wp.id = wpr.post2_id " .
+                 "UNION ALL ".
+                 "SELECT wp.ID ".
+                      ", wp.post_title ".
+                   "FROM ".$wpdb->prefix."post_relationships	wpr ".
+                       ",".$wpdb->prefix."posts						wp ".
+                  "WHERE wpr.post2_id = $post_id ".
+                    "AND wp.id = wpr.post1_id ";
+      }
+      else {
+      	$query = "SELECT wp.ID ".
+      					 ", wp.post_title ".
+      				 "FROM ".$wpdb->prefix."post_relationships	wpr ".
+      					 " JOIN ".$wpdb->prefix."posts			wp ".
+      					 "	ON wpr.post2_id = wp.ID ".
+      				 "WHERE wpr.post1_id = $post_id";
+		}
+
 		$results = $wpdb->get_results( $query );
-				
-			// If anyone out there has any bright ideas on a better solution for the following,
-			// perhaps with a JOIN, please let me know: microkid.net@gmail.com
+
 		if( $results ) {
 			$related_posts = array();
 			foreach( $results as $result ) {
-				if( $result->post1_id == $post_id ) {
-					$query = "SELECT ID, post_title FROM $wpdb->posts WHERE ID = $result->post2_id LIMIT 1";
-					$result = $wpdb->get_row( $query );
-					$related_posts[$result->ID] = $result->post_title;
-				}
-				else {
-					$query = "SELECT ID, post_title FROM $wpdb->posts WHERE ID = $result->post1_id LIMIT 1";
-					$result = $wpdb->get_row( $query );
-					$related_posts[$result->ID] = $result->post_title;
-				}					
+				$related_posts[$result->ID] = $result->post_title;
 			}
 			return $related_posts;
 		}
-		
 		return false;
 	}
+
 	
 	/*------------
 		Displays a <ul> list of the related posts
@@ -395,6 +424,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		 
 			$new_options = array();
 			$new_options['display_auto'] = attribute_escape( $_POST['MRP_display_auto'] );
+			$new_options['display_reciprocal'] = attribute_escape( $_POST['MRP_display_reciprocal'] );
 			$new_options['title'] = attribute_escape( $_POST['MRP_title'] );
 			$new_options['header_element'] = attribute_escape( $_POST['MRP_header_element'] );
 			$new_options['hide_if_empty'] = attribute_escape( $_POST['MRP_hide_if_empty'] );
@@ -429,6 +459,19 @@ function MRP_disable_empty_text() {
 </td>
 
 </tr>
+
+
+<tr valign="top">
+<th scope="row" style="width:300px;">Should related posts be reciprocal?  If so, the link will appear on both pages.  If not, it will only appear on the page where it was selected.</th>
+<td>
+	<p><input name="MRP_display_reciprocal" type="radio" id="MRP_reciprocal_true" value="1"<?php if( $options['display_reciprocal'] ) : ?> checked="checked"<?php endif; ?> /> <label for="MRP_reciprocal_true">Yes, include the link on both pages</label></p>
+	<p><input name="MRP_display_reciprocal" type="radio" id="MRP_reciprocal_false" value="0"<?php if( !$options['display_reciprocal'] ) : ?>checked="checked"<?php endif; ?> /> <label for="MRP_reciprocal_false">No, only show the link on one page</label></p>
+</td>
+
+</tr>
+
+
+
 <tr valign="top">
 <th scope="row" style="width:300px;">What title should be displayed?</th>
 <td>

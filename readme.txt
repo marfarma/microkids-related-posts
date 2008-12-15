@@ -1,25 +1,27 @@
 === Microkid's Related Posts ===
 Contributors: microkid
-Tags: related, posts, seo, content, articles
+Tags: related, posts, seo, content, articles, relevant
 Requires at least: 2.5
-Tested up to: 2.6
+Tested up to: 2.7
 Stable tag: trunk
 
-Increase your pageviews and SEO by manually selecting related posts for your content.
+Increase your pageviews and SEO by manually selecting related posts for your content. Easy reciprocal linking of related posts.
 
 == Description ==
 
-Not satisfied with automatically generated relations between posts? That's because there's no plugin out there that's smarter then you in selecting related posts!
+This plugin makes it super easy to manually select related posts. You can search and select posts that fit **your** criteria, all from within the write/edit post screen. 
 
-This plugin makes it super easy to manually select related posts. You can search and select posts that fit **your** criteria, all from within the write/edit post screen.
+Creating a system of related posts/pages on your site will result in more page views per unique visitor, and will improve GoogleBots understanding of your content.
+
+See the official plugin homepage for [Microkids Related Posts](http://www.microkid.net/wordpress/related-posts/ "Wordpress Related Posts") for more info and discussion.
 
 = Features =
 
 * Easily find posts or pages that might be related to the one you are writing with an integrated AJAX powered search utility
 * Easily add and remove relations with a single click. No page reloads, no pop-ups
-* The relationship created works **reciprocal**, which means that if post A is added as related to post B, post B is automatically added as related to post A as well
+* The relationship created works **reciprocal**, which means that if post A is added as related to post B, post B is automatically added as related to post A as well (this option can be turned off easily through the settings panel)
 * Widget support
-* Automatically displays a list of related posts underneath your posts content
+* Automatically display a list of related posts underneath your posts content. No need to add any PHP tags in your template files, but several [functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") available for advanced users.
 * Flexible customization of the way the related posts are displayed
 
 == Installation ==
@@ -54,6 +56,11 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 3. The Related Posts widget
 
 == Change Log ==
+
+= 2.2 =
+* Added optimized SQL for related posts query provided by [Peter Raganitsch](http://blog.oracleapex.at "Peter Raganitsch]")
+* Added option for turning reciprocal function off provided by [Brock Boland](http://www.brockboland.com/ "Brock Boland]")
+* Fixed some layout issues in Wordpress 2.7
 
 = 2.1.1 =
 * Solved an issue with shorthand PHP tags.

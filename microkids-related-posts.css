@@ -35,7 +35,7 @@
 	background: url(../../../wp-admin/images/xit.gif) no-repeat -10px 0;
 }
 #MRP_results {
-	margin: 5px 0 0 0;
+	margin: 5px 0 0 100px;
 	padding: 0;
 	height: 160px;
 	overflow: auto;
@@ -43,9 +43,10 @@
 	border-style: solid;
 	border-color: #cee1ef;
 	width: 585px;
-	float: right;
+	float: left;
 	line-height: 24px;
 	list-style: none;
+	clear: left;
 }
 #MRP_results a {
 	float: left;

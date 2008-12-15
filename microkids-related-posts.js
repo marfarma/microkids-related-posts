@@ -8,7 +8,7 @@ jQuery(document).ready(function($){
 			var searchResults = "../wp-content/plugins/microkids-related-posts/mrp-search.php?mrp_s=" + escape( $("#MRP_search").val() );
 			if( $("#post_ID").val() ) {
 				searchResults += "&mrp_id=" + escape( $("#post_ID").val() ); 
-			}
+			}			
 			$("#MRP_results").load( searchResults, '', 
 				function() { $("#MRP_results li .MRP_result").each(function(i) {
 						$(this).click(function() {
@@ -17,6 +17,8 @@ jQuery(document).ready(function($){
 							var resultID = "related-post-" + postID;
 							
 							if( $("#"+resultID).text() == '' ) {
+							
+								$("#related-posts-replacement").hide();
 
 								var newLI = document.createElement("li");								
 								
@@ -40,6 +42,14 @@ jQuery(document).ready(function($){
 
 function MRP_remove_relationship( postID ) {
 	jQuery(document).ready(function($){
+		
 		$("#"+postID).remove();
+		
+		if( $("#MRP_relatedposts_list li").length < 2 ){
+		
+			$("#related-posts-replacement").show();
+			
+		}
+		
 	});
 } 
