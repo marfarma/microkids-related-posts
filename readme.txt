@@ -61,6 +61,7 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 * Added optimized SQL for related posts query provided by [Peter Raganitsch](http://blog.oracleapex.at "Peter Raganitsch]")
 * Added option for turning reciprocal function off provided by [Brock Boland](http://www.brockboland.com/ "Brock Boland]")
 * Fixed some layout issues in Wordpress 2.7
+* The search tool now searches in post title and post content.
 
 = 2.1.1 =
 * Solved an issue with shorthand PHP tags.
