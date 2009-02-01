@@ -35,7 +35,7 @@
 	background: url(../../../wp-admin/images/xit.gif) no-repeat -10px 0;
 }
 #MRP_results {
-	margin: 5px 0 0 100px;
+	margin: 5px 0 0 50px;
 	padding: 0;
 	height: 160px;
 	overflow: auto;
@@ -47,6 +47,9 @@
 	line-height: 24px;
 	list-style: none;
 	clear: left;
+}
+html>body #MRP_results {
+	margin: 5px 0 0 100px;
 }
 #MRP_results a {
 	float: left;
@@ -77,7 +80,11 @@ MRP_search_utility {
 	width: 95px;
 	float: left;
 	text-align: right;
-	margin: 2px 5px 0 0;
+	margin: 5px 5px 0 0;
+}
+#MRP_scope label {
+	line-height: 25px;
+	padding: 0 0 0 10px;
 }
 #MRP_results ul {
 	margin: 0;
@@ -92,6 +99,9 @@ MRP_search_utility {
 	margin: 0;
 	clear: both;
 	overflow: hidden;
+	width: 500px;
+}
+html>body #MRP_results ul li {
 	width: 100%;
 }
 #MRP_results ul li a {

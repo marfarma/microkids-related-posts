@@ -5,7 +5,7 @@ Requires at least: 2.5
 Tested up to: 2.7
 Stable tag: trunk
 
-Increase your pageviews and SEO by manually selecting related posts for your content. Easy reciprocal linking of related posts.
+Increase your pageviews and SEO by manually selecting related posts for your content. Easy reciprocal linking of related posts and pages.
 
 == Description ==
 

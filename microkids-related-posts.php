@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Manually add related posts
 Author: Microkid
-Version: 2.2
+Version: 2.3
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -113,6 +113,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		echo '</ul>';
 		echo '</div>';
 		echo '<div id="MRP_add_related_posts"><label for="MRP_search" id="MRP_search_label">Search posts:</label> <input type="text" id="MRP_search" name="MRP_search" value="" size="16" />';
+		echo '<div id="MRP_scope"><label for="MRP_scope_1"><input type="radio" name="MRP_scope" id="MRP_scope_1" value="1">title</label> <label for="MRP_scope_2"><input type="radio" name="MRP_scope" id="MRP_scope_2" value="2">content</label> <label for="MRP_scope_3"><input type="radio" name="MRP_scope" id="MRP_scope_3" value="3" checked="checked"><strong>both</strong></label></div>';
 		echo '<div id="MRP_results" class="ui-tabs-panel"></div></div>';
 		
 		echo '<input type="hidden" name="MRP_noncename" id="MRP_noncename" value="'.wp_create_nonce( plugin_basename(__FILE__) ).'" />';
@@ -134,7 +135,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 			}
 		}
 		else {
-			if ( !current_user_can( 'edit_post', $post_id )) {
+			if ( !current_user_can( 'edit_post', $post_id ) ) {
 				return $post_id;
 			}
 		}
@@ -157,6 +158,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		global $wpdb;
 		
 			// First delete the relationships that were there before
+		
 		MRP_delete_relationships( $post_id ); 
 		
 			// Now add/update the relations
@@ -176,7 +178,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	function MRP_delete_relationships( $post_id ) {
 	
 		global $wpdb;
-		$query = "DELETE FROM ".$wpdb->prefix."post_relationships WHERE post1_id = $post_id OR post2_id = $post_id";
+		
+		$options = get_option("MRP_options");
+		
+		if($options['display_reciprocal']) {
+			$query = "DELETE FROM ".$wpdb->prefix."post_relationships WHERE post1_id = $post_id OR post2_id = $post_id";
+		}
+		else {
+			$query = "DELETE FROM ".$wpdb->prefix."post_relationships WHERE post1_id = $post_id";
+		}
 		$delete = $wpdb->query( $query );
 	
 	}
