@@ -57,6 +57,15 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 
 == Change Log ==
 
+= 2.3 =
+* Added option to manage search scope: post content, post title, or both
+* Slightly improved the search query when searching for related posts
+* Added a limit of 50 search results to help the plugin work smoothly on larger sites.
+* Fixed some IE6 layout issues
+* Fixed issue where, in non reciprocal mode, after editing a post it would lose its passive connections to other posts
+* Fixed issue where hitting the enter key while in the search box would submit the page
+* Fixed issue where hitting a none character key (like shift, ctrl, etc.) in the search box would trigger the AJAX search
+
 = 2.2 =
 * Added optimized SQL for related posts query provided by [Peter Raganitsch](http://blog.oracleapex.at "Peter Raganitsch]")
 * Added option for turning reciprocal function off provided by [Brock Boland](http://www.brockboland.com/ "Brock Boland]")
