@@ -17,6 +17,7 @@ See the official plugin homepage for [Microkids Related Posts](http://www.microk
 
 = Features =
 
+* Manually search and add related posts
 * Easily find posts or pages that might be related to the one you are writing with an integrated AJAX powered search utility
 * Easily add and remove relations with a single click. No page reloads, no pop-ups
 * The relationship created works **reciprocal**, which means that if post A is added as related to post B, post B is automatically added as related to post A as well (this option can be turned off easily through the settings panel)
