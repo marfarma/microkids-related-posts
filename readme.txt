@@ -31,7 +31,7 @@ See the official plugin homepage for [Microkids Related Posts](http://www.microk
 1. Put the related-posts folder in your wp-content/plugins folder,
 1. Activate the plugin through the Wordpress admin,
 1. The plugin will automatically display related posts underneath your posts content. You can change this and some other settings through the plugins options page under Settings > Related Posts.
-1. If you want to display the related posts somewhere else on your page, there is a set of [API functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") you can place in your theme files.
+1. If you want to display the related posts somewhere else on your page, there is a set of [API functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") you can place in your theme files. You can also use the [related-posts] shortcode to display related posts within your content.
 
 == Frequently Asked Questions == 
 
