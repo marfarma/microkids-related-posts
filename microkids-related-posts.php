@@ -2,9 +2,9 @@
 /*
 Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
-Description: Manually add related posts
+Description: Display a set of manually selected related items with your posts
 Author: Microkid
-Version: 2.3
+Version: 2.4
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -78,6 +78,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		echo '<link rel="stylesheet" type="text/css" href="'.get_option('siteurl').'/wp-content/plugins/microkids-related-posts/microkids-related-posts.css" />';
 	
 	}
+
 	function MRP_inner_custom_box() {
 
 		global $post_ID;
@@ -89,12 +90,19 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		
 		if( $post_ID ) {
 		
-			if( $related_posts = MRP_get_related_posts( $post_ID ) ) {
-			
-				foreach( $related_posts as $related_post_id => $related_post_title ) {
+			if( $related_posts = MRP_get_related_posts( $post_ID, 1, 0 ) ) {
 				
-					echo '<li id="related-post-'.$related_post_id.'"><span>'.$related_post_title.'</span><span><a class="MRP_deletebtn" onclick="MRP_remove_relationship(\'related-post-'.$related_post_id.'\')">X</a></span>';
-					echo '<input type="hidden" name="MRP_related_posts[]" value="'.$related_post_id.'" /></li>';
+				foreach( $related_posts as $related_post ) {
+				
+					$post_title = $related_post->post_title;
+					if( $related_post->post_type == 'page' ) {
+						$post_title = "[Page] " . $post_title;
+					}
+					if( $related_post->post_status != 'publish' ) {
+						$post_title = $post_title . ' ('.$related_post->post_status.')';
+					}
+					echo '<li id="related-post-'.$related_post->ID.'"><span>'.$post_title.'</span><span><a class="MRP_deletebtn" onclick="MRP_remove_relationship(\'related-post-'.$related_post->ID.'\')">X</a></span>';
+					echo '<input type="hidden" name="MRP_related_posts[]" value="'.$related_post->ID.'" /></li>';
 				
 				}			
 			
@@ -196,49 +204,60 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		Returns an array in this format:
 		$related_posts[related_post_id] => related_post_title
 	*/
-	function MRP_get_related_posts( $post_id ) {
-	
+	function MRP_get_related_posts( $post_id, $return_object = false, $hide_unpublished = true ) {
+
 		global $wpdb;
-		
+
 		$options = get_option("MRP_options");
-		
+
 		if($options['display_reciprocal']) {
-		
+
 			//
-        	// Newer, faster (and definitely more SQL like) way to fetch related postings
-        	// (Thanks Peter Raganitsch @ http://blog.oracleapex.at)
-        	// 
-			$query = "SELECT wp.ID ".
-                      ", wp.post_title ".
-                   "FROM ".$wpdb->prefix."post_relationships	wpr ".
-                       ",".$wpdb->prefix."posts						wp ".
-                  "WHERE wpr.post1_id = $post_id ".
-                    "AND wp.id = wpr.post2_id " .
-                 "UNION ALL ".
-                 "SELECT wp.ID ".
-                      ", wp.post_title ".
-                   "FROM ".$wpdb->prefix."post_relationships	wpr ".
-                       ",".$wpdb->prefix."posts						wp ".
-                  "WHERE wpr.post2_id = $post_id ".
-                    "AND wp.id = wpr.post1_id ";
-      }
-      else {
-      	$query = "SELECT wp.ID ".
-      					 ", wp.post_title ".
-      				 "FROM ".$wpdb->prefix."post_relationships	wpr ".
-      					 " JOIN ".$wpdb->prefix."posts			wp ".
-      					 "	ON wpr.post2_id = wp.ID ".
-      				 "WHERE wpr.post1_id = $post_id";
+			// Newer, faster (and definitely more SQL like) way to fetch related postings
+			// (Thanks Peter Raganitsch @ http://blog.oracleapex.at)
+			// 
+			$query = "SELECT * ".
+				"FROM ".$wpdb->prefix."post_relationships	wpr ".
+				",".$wpdb->prefix."posts					wp ".
+				"WHERE wpr.post1_id = $post_id ".
+				"AND wp.id = wpr.post2_id ";
+			if( $hide_unpublished ) {
+				$query .= "AND wp.post_status = 'publish'";
+			}
+			$query .= "UNION ALL ".
+				"SELECT * ".
+				"FROM ".$wpdb->prefix."post_relationships	wpr ".
+				",".$wpdb->prefix."posts					wp ".
+				"WHERE wpr.post2_id = $post_id ".
+				"AND wp.id = wpr.post1_id ";
+			if( $hide_unpublished ) {
+				$query .= "AND wp.post_status = 'publish'";
+			}
+		}
+		else {
+			$query = "SELECT * ".
+				"FROM ".$wpdb->prefix."post_relationships	wpr ".
+				" JOIN ".$wpdb->prefix."posts				wp ".
+				"	ON wpr.post2_id = wp.ID ".
+				"WHERE wpr.post1_id = $post_id";
+			if( $hide_unpublished ) {
+				$query .= " AND wp.post_status = 'publish'";
+			}
 		}
 
 		$results = $wpdb->get_results( $query );
 
 		if( $results ) {
-			$related_posts = array();
-			foreach( $results as $result ) {
-				$related_posts[$result->ID] = $result->post_title;
+			if( $return_object ) {
+				return $results;
 			}
-			return $related_posts;
+			else {
+				$related_posts = array();
+				foreach( $results as $result ) {
+					$related_posts[$result->ID] = $result->post_title;
+				}
+				return $related_posts;
+			}
 		}
 		return false;
 	}
@@ -299,7 +318,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	
 		$options = get_option("MRP_options");
 		
-		$related_posts = MRP_get_related_posts( $post_id );
+		$related_posts = MRP_get_related_posts( $post_id, 1, 1 );
 				
 		if( $related_posts ) {
 		
@@ -308,8 +327,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		  
 			$output .= "<ul>\n";
 
-			foreach( $related_posts as $related_post_id => $related_post_title  ) {
-				$output .= "<li><a href=\"".get_permalink( $related_post_id )."\" title=\"$related_post_title\">".$related_post_title."</a></li>\n";
+			foreach( $related_posts as $related_post  ) {
+				$output .= "<li><a href=\"".get_permalink( $related_post->ID )."\" title=\"$related_post_title\">".$related_post->post_title."</a></li>\n";
 			}
 			
 			$output .= "</ul></div>\n";
@@ -409,6 +428,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		<input class="widefat" id="MRP_text_if_empty" name="MRP_text_if_empty" type="text" value="<?php echo $text_if_empty; ?>" /></p>
 		<input type="hidden" id="MRP_submit" name="MRP_submit" value="1" />
 	<?php
+	}
+	
+	
+	function MRP_shortcode($atts) {
+		global $post;
+		if( $post->ID ) {
+			return MRP_get_related_posts_html( $post->ID );
+		}
 	}
 	
 	function MRP_load_widget() {
@@ -533,6 +560,9 @@ function MRP_disable_empty_text() {
 	add_action("widgets_init", "MRP_load_widget");
 
 	add_filter('the_content', 'MRP_auto_related_posts');
+	
+	add_shortcode('related-posts', 'MRP_shortcode');
+	
 	
 
 ?>

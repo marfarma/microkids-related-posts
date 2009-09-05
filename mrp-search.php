@@ -37,7 +37,7 @@ if( isset( $_GET['mrp_s'] ) ) {
 	
 	}
 	
-	$query = "SELECT ID, post_title, post_type FROM $wpdb->posts WHERE $where AND ( post_type = 'post' OR post_type = 'page' ) AND post_status = 'publish' ";
+	$query = "SELECT ID, post_title, post_type, post_status FROM $wpdb->posts WHERE $where AND ( post_type = 'post' OR post_type = 'page' ) ";
 	if( $_GET['mrp_id'] ) {
 		$this_id = (int) $_GET['mrp_id'];
 		$query .= " AND ID != $this_id ";
@@ -57,7 +57,11 @@ if( isset( $_GET['mrp_s'] ) ) {
 			if( $result->post_type == 'page') {
 				echo "<strong>[Page]</strong> - ";
 			}
-			echo $result->post_title.'</a> <a href="'.get_permalink( $result->ID ).'" title="View this post" class="MRP_view_post" target="_blank">&rsaquo;</a></li>';
+			echo $result->post_title;
+			if( $result->post_status != 'publish') {
+				echo ' ('.$result->post_status.')';
+			}
+			echo '</a> <a href="'.get_permalink( $result->ID ).'" title="View this post" class="MRP_view_post" target="_blank">&rsaquo;</a></li>';
 			$n++;
 		}
 		echo "</ul>";
