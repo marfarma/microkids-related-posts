@@ -21,6 +21,7 @@ See the official plugin homepage for [Microkids Related Posts](http://www.microk
 * Easily add and remove relations with a single click. No page reloads, no pop-ups
 * The relationship created works **reciprocal**, which means that if post A is added as related to post B, post B is automatically added as related to post A as well (this option can be turned off easily through the settings panel)
 * Widget support
+* Add the [related-posts] shortcode to your post content to display related posts anywhere you want
 * Automatically display a list of related posts underneath your posts content. No need to add any PHP tags in your template files, but several [functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") available for advanced users.
 * Flexible customization of the way the related posts are displayed
 
