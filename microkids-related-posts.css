@@ -1,0 +1,141 @@
+#MRP_relatedposts {
+	overflow: hidden;
+	width: 100%;
+}
+#MRP_relatedposts span {
+	display: block;
+	float: left;
+	font-size: 11px;
+	white-space: nowrap;
+	font-weight: bold;
+}
+#MRP_relatedposts a { 
+	 
+}
+#MRP_add_related_posts {
+	clear: both;
+	margin: 2em 0 1em 0;
+	overflow: hidden;
+	width: 100%;
+}
+#MRP_relatedposts .MRP_deletebtn {
+	margin: 3px 0pt 0pt 5px;
+	cursor: pointer;
+	width: 10px;
+	height: 10px;
+	display: block;
+	float: left;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+#MRP_relatedposts .MRP_deletebtn {
+	background: url(../../../wp-admin/images/xit.gif) no-repeat;
+}
+#MRP_relatedposts .MRP_deletebtn:hover {
+	background: url(../../../wp-admin/images/xit.gif) no-repeat -10px 0;
+}
+#MRP_results {
+	margin: 5px 0 0 50px;
+	padding: 0;
+	height: 160px;
+	overflow: auto;
+	border-width: 4px;
+	border-style: solid;
+	border-color: #cee1ef;
+	width: 585px;
+	float: left;
+	line-height: 24px;
+	list-style: none;
+	clear: left;
+}
+html>body #MRP_results {
+	margin: 5px 0 0 100px;
+}
+#MRP_results a {
+	float: left;
+}
+#MRP_results .MRP_view_post { 
+	margin: 8px 0pt 0pt 0;
+	padding: 0;
+	cursor: pointer;
+	width: 10px;
+	height: 10px;
+	display: block;
+	float: left;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+#MRP_results .MRP_view_post {
+	background: url(images/link.png) no-repeat;
+}
+MRP_search_utility {
+	overflow: hidden;
+	width: 100%;
+}
+#MRP_results .MRP_view_post:hover {
+	background: url(images/link.png) no-repeat -10px 0;
+}
+#MRP_search_label {
+	display: block;
+	width: 95px;
+	float: left;
+	text-align: right;
+	margin: 5px 5px 0 0;
+}
+#MRP_scope label {
+	line-height: 25px;
+	padding: 0 0 0 10px;
+}
+#MRP_results ul {
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#MRP_results ul li {
+	line-height: 25px;
+	padding: 3px 0;
+	margin: 0;
+	clear: both;
+	overflow: hidden;
+	width: 500px;
+}
+html>body #MRP_results ul li {
+	width: 100%;
+}
+#MRP_results ul li a {
+	padding: 0 10px;
+}
+#MRP_results ul .alt {
+	background: #f1f1f1;
+	padding: 3px 0;
+}
+#MRP_search {
+	width: 200px;
+	float: left;
+	display: block;
+}
+#MRP_relatedposts_list_label {
+	width: 95px;
+	display: block;
+	float: left;
+	text-align: right;
+	margin: 6px 5px 0 0;
+}
+#MRP_relatedposts_list {
+	overflow: auto;
+	width: 580px;
+	height: 100px;
+	margin: 0;
+	list-style: none;
+	border: solid 1px #dedede;
+	padding: 5px;
+	float: left;
+}
+#MRP_relatedposts_list li {
+	clear: both;
+}
+#MRP_relatedposts_list a {
+	float: left;
+}
