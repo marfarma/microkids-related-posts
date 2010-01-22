@@ -2,15 +2,19 @@
 
 jQuery(document).ready(function($){
 
-	$("#MRP_search").keydown(function(e){
+	$("#MRP_search").bind( 'keydown', function(e){
 		if( e.keyCode == 13 ){
 			return false;
 		}
 	});
-	
-	$("#MRP_search").keyup(function(e){
+
+	var timer = 0;	
+	$("#MRP_search").bind( 'keyup', function(e){
 		if( ( e.keyCode > 47 && e.keyCode < 91 ) || e.keyCode == 8 || e.keyCode == 13 ){
-			MRP_search();
+			clearTimeout( timer );
+			timer = setTimeout( function() {
+						MRP_search();
+					}, 200 );
 		}
 	});
 	
@@ -62,4 +66,4 @@ function MRP_remove_relationship( postID ) {
 			$("#related-posts-replacement").show();
 		}
 	});
-} 
+}

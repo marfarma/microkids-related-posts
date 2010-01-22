@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Display a set of manually selected related items with your posts
 Author: Microkid
-Version: 2.4
+Version: 2.5rc1
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
+		/*------------
+			Include the widget class
+		*/
+	require( "microkids-related-posts-widget.php" );
 
 	/*------------
 		When the plugin is activated, check
@@ -51,16 +55,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
  		}
  		
- 		if( !get_option("MRP_widget_options") ) {
-
-			$defaults = array();
-			$defaults['title'] = "Related Posts";
-			$defaults['hide_if_empty'] = 0;
-			$defaults['text_if_empty'] = "None";
-			
-			update_option("MRP_widget_options", $defaults );
-
- 		}
 	}
 	
 	
@@ -153,9 +147,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 				return $post_id;	
 			}
 		}
-		
 		MRP_save_relationships( $post_id, $_POST['MRP_related_posts'] );
-		
 	}
 	
 	/*------------
@@ -209,6 +201,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		global $wpdb;
 
 		$options = get_option("MRP_options");
+		
+		$post_status = array( "'publish'" );
+		if( current_user_can( "read_private_posts" ) ) {
+			$post_status[] = "'private'";
+		}
+		
+		$wpdb->show_errors();
 
 		if($options['display_reciprocal']) {
 
@@ -222,7 +221,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 				"WHERE wpr.post1_id = $post_id ".
 				"AND wp.id = wpr.post2_id ";
 			if( $hide_unpublished ) {
-				$query .= "AND wp.post_status = 'publish'";
+				$query .= "AND wp.post_status IN (".implode( ",", $post_status ).") ";
 			}
 			$query .= "UNION ALL ".
 				"SELECT * ".
@@ -231,7 +230,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 				"WHERE wpr.post2_id = $post_id ".
 				"AND wp.id = wpr.post1_id ";
 			if( $hide_unpublished ) {
-				$query .= "AND wp.post_status = 'publish'";
+				$query .= "AND wp.post_status IN (".implode( ",", $post_status ).") ";
 			}
 		}
 		else {
@@ -241,7 +240,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 				"	ON wpr.post2_id = wp.ID ".
 				"WHERE wpr.post1_id = $post_id";
 			if( $hide_unpublished ) {
-				$query .= " AND wp.post_status = 'publish'";
+				$query .= " AND wp.post_status IN (".implode( ",", $post_status ).") ";
 			}
 		}
 
@@ -328,7 +327,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 			$output .= "<ul>\n";
 
 			foreach( $related_posts as $related_post  ) {
-				$output .= "<li><a href=\"".get_permalink( $related_post->ID )."\" title=\"$related_post_title\">".$related_post->post_title."</a></li>\n";
+				$output .= "<li><a href=\"".get_permalink( $related_post->ID )."\">".$related_post->post_title."</a></li>\n";
 			}
 			
 			$output .= "</ul></div>\n";
@@ -349,88 +348,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		return $output;
 	}
 	
-	
-	/*------------
-		Widget functions 
-	*/
-
-	
-	function MRP_widget( $args ) {
-	
-		if( is_single() ) {
-		
-			global $post;
-			
-			$options = get_option("MRP_widget_options");
-		
-			extract( $args );
-		 
-			$related_posts = MRP_get_related_posts( $post->ID );
-					
-			if( $related_posts ) {
-			
-				echo $before_widget;
-				echo "<div id=\"related-posts-widget\">\n";
-				echo "<h2>".$options['title']."</h2>\n";
-				echo "<ul>\n";
-	
-				foreach( $related_posts as $related_post_id => $related_post_title  ) {
-					echo "<li><a href=\"".get_permalink( $related_post_id )."\" title=\"$related_post_title\">".$related_post_title."</a></li>\n";
-				}
-				
-				echo "</ul></div>";
-				
-				echo $after_widget;
-				
-			}
-			else {
-			
-				if( !$options['hide_if_empty'] ) {
-				
-					echo $before_widget;
-				
-					echo "<div id=\"related-posts\">\n";					
-					echo "<h2>".$options['title']."</h2>\n";
-					echo "<p>".$options['text_if_empty']."</p>\n";
-					echo "</div>\n";
-					
-					echo $after_widget;
-					
-				}
-			}
-		}
-	}
-	function MRP_widget_control() {
-	
-		$options = $new_options = get_option('MRP_widget_options');
-	
-		if ( $_POST['MRP_submit'] ) {
-		
-			$options['title'] = strip_tags( stripslashes( $_POST['MRP_widget_title'] ) );
-			$options['hide_if_empty'] = strip_tags( stripslashes( $_POST['MRP_hide_if_empty'] ) );
-			$options['text_if_empty'] = strip_tags( stripslashes( $_POST['MRP_text_if_empty'] ) );
-	
-			update_option('MRP_widget_options', $options);
-		}
-		
-		$title = attribute_escape($options['title']);
-		
-		$hide_if_empty = attribute_escape( $options['hide_if_empty'] );
-		$text_if_empty = attribute_escape( $options['text_if_empty'] );
-		
-	?>
-		 
-		<p><label for="pages-title"><?php _e('Title:'); ?></label> <input class="widefat" id="MRP_widget_title" name="MRP_widget_title" type="text" value="<?php echo $title; ?>" /></p>
-		<p><label for=""><?php _e('If there are no related posts:'); ?></label></p>
-		<p><input type="radio" name="MRP_hide_if_empty" value="1" id="MRP_hide_if_empty_true"<?php if($hide_if_empty) : ?> checked="checked"<?php endif; ?> /> <label for="MRP_hide_if_empty_true">Hide the entire widget</label></p>
-		<p><input type="radio" name="MRP_hide_if_empty" value="0" id="MRP_hide_if_empty_false"<?php if(!$hide_if_empty) : ?>checked="checked"<?php endif; ?> /> <label for="MRP_hide_if_empty_false">Show this text:</label>
-		
-		<input class="widefat" id="MRP_text_if_empty" name="MRP_text_if_empty" type="text" value="<?php echo $text_if_empty; ?>" /></p>
-		<input type="hidden" id="MRP_submit" name="MRP_submit" value="1" />
-	<?php
-	}
-	
-	
+		/*------------
+			Initiate shortcode feature
+		*/
 	function MRP_shortcode($atts) {
 		global $post;
 		if( $post->ID ) {
@@ -438,12 +358,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 		}
 	}
 	
+		/*------------
+			Register the widget 
+		*/
 	function MRP_load_widget() {
-	
-		$widget_ops = array('classname' => 'widget_related_posts', 'description' => __( "Include related posts in your sidebar") );
-		wp_register_sidebar_widget('widget_related_posts', __('Related Posts'), 'MRP_widget', $widget_ops);
-		wp_register_widget_control('widget_related_posts', __('Related Posts display options'), 'MRP_widget_control' );
-		
+		register_widget("wp_widget_related_posts");		
 	}
 	
 	
@@ -489,7 +408,7 @@ function MRP_disable_empty_text() {
 <p>These settings let you customize the presentation of the list of related posts. If you're using a theme that supports it, you can also use the Related Posts <a href="widgets.php" title="Manage widgets">widget</a>.</p>
 <table class="form-table">
 <tr valign="top">
-<th scope="row" style="width:300px;">Display related posts automatically underneath the post content?</th>
+<th scope="row" style="width:300px;"><p>Display related posts automatically underneath the post content?</p></th>
 <td>
 	<p><input name="MRP_display_auto" type="radio" id="MRP_display_true" value="1"<?php if( $options['display_auto'] ) : ?> checked="checked"<?php endif; ?> /> <label for="MRP_display_true">Yes</label></p>
 	<p><input name="MRP_display_auto" type="radio" id="MRP_display_false" value="0"<?php if( !$options['display_auto'] ) : ?>checked="checked"<?php endif; ?> /> <label for="MRP_display_false">No, I will use the widget or implement the necessary PHP code in my theme file(s).</label></p>
@@ -499,7 +418,7 @@ function MRP_disable_empty_text() {
 
 
 <tr valign="top">
-<th scope="row" style="width:300px;">Should related posts be reciprocal?  If so, the link will appear on both pages.  If not, it will only appear on the page where it was selected.</th>
+<th scope="row" style="width:300px;"><p>Should related posts be reciprocal?  If so, the link will appear on both pages.  If not, it will only appear on the post/page where it was selected.</p></th>
 <td>
 	<p><input name="MRP_display_reciprocal" type="radio" id="MRP_reciprocal_true" value="1"<?php if( $options['display_reciprocal'] ) : ?> checked="checked"<?php endif; ?> /> <label for="MRP_reciprocal_true">Yes, include the link on both pages</label></p>
 	<p><input name="MRP_display_reciprocal" type="radio" id="MRP_reciprocal_false" value="0"<?php if( !$options['display_reciprocal'] ) : ?>checked="checked"<?php endif; ?> /> <label for="MRP_reciprocal_false">No, only show the link on one page</label></p>
@@ -510,7 +429,7 @@ function MRP_disable_empty_text() {
 
 
 <tr valign="top">
-<th scope="row" style="width:300px;">What title should be displayed?</th>
+<th scope="row" style="width:300px;"><p>What title should be displayed?</p></th>
 <td>
 	<p><input name="MRP_title" type="text" id="MRP_title" value="<?=$options['title']?>" style="width:300px;" /></p>
 	<p>
@@ -528,7 +447,7 @@ function MRP_disable_empty_text() {
 
 </tr>
 <tr valign="top">
-<th scope="row" style="width:300px;">What should be displayed when there are no related posts?</th>
+<th scope="row" style="width:300px;"><p>What should be displayed when there are no related posts?</p></th>
 <td>
 	<p><input name="MRP_hide_if_empty" type="radio" id="MRP_hide_if_empty_true" value="1"<?php if( $options['hide_if_empty'] ) : ?>checked="checked"<?php endif; ?> onclick="MRP_disable_empty_text()" /> <label for="MRP_hide_if_empty_true" onclick="MRP_disable_empty_text()">Nothing</label></p>
 	<p>
@@ -558,7 +477,7 @@ function MRP_disable_empty_text() {
 	add_action('admin_head','MRP_load_includes');
 	add_action("delete_post", "MRP_delete_relationships");
 	add_action("widgets_init", "MRP_load_widget");
-
+	
 	add_filter('the_content', 'MRP_auto_related_posts');
 	
 	add_shortcode('related-posts', 'MRP_shortcode');
