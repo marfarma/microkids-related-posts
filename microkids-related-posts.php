@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Display a set of manually selected related items with your posts
 Author: Microkid
-Version: 2.5rc1
+Version: 2.5
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
