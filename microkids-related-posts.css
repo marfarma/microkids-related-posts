@@ -1,0 +1,213 @@
+#MRP_sectionid .inside {
+	padding: 0;
+	margin: 0;
+}
+#MRP_relatedposts {
+	overflow: hidden;
+	width: 100%;
+}
+.MRP_relatedposts_list span {
+	display: block;
+	float: left;
+	font-size: 11px;
+	white-space: nowrap;
+	font-weight: bold;
+}
+#MRP_relatedposts a { 
+	 
+}
+.MRP_post_type {
+	display: none;
+	padding: 10px 0 0 0;
+}
+#MRP_tabs {
+	border-bottom: solid 1px #ddd;
+	float: left;
+	width: 100%;
+	margin: 0 0 20px 0;
+	padding: 6px 0 0 2%;
+	background: #EAF2FA;
+}
+.MRP_tab {
+	float: left;
+	height: 27px;
+	font-size: 12px;
+	line-height: 27px;
+	border: solid 1px #ddd;
+	border-bottom: none;
+	margin: 0 3px 0 0;
+	background: #F1F1F1;
+	-moz-border-radius: 6px 6px 0 0;
+	-webkit-border-radius: 6px 6px 0 0;
+	border-radius: 6px 6px 0 0;
+	position: relative;
+	top: 1px;
+	left: 0;
+}
+.MRP_tab a {
+	color: #999;
+	text-decoration: none;
+	display: block;
+	float: left;
+	padding: 0 10px;
+	height: 27px;
+	line-height: 27px;
+}
+.MRP_tab a:hover {
+	color: default;
+}
+.MRP_current_tab {
+	background: #fff;
+	border-bottom: solid 1px #fff;
+	top: 1px;
+}
+.MRP_current_tab a {
+	color: #333;
+}
+.MRP_current {
+	display: block;
+}
+.MRP_add_related_posts {
+	clear: both;
+	float: left;
+	margin: 2em 0 1em 0;
+	padding: 0 0 10px 0;
+	overflow: hidden;
+	width: 100%;
+}
+#MRP_relatedposts .MRP_deletebtn {
+	margin: 3px 0pt 0pt 5px;
+	cursor: pointer;
+	width: 10px;
+	height: 10px;
+	display: block;
+	float: left;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+#MRP_relatedposts .MRP_deletebtn {
+	background: url(../../../wp-admin/images/xit.gif) no-repeat;
+}
+#MRP_relatedposts .MRP_deletebtn:hover {
+	background: url(../../../wp-admin/images/xit.gif) no-repeat -10px 0;
+}
+.MRP_results {
+	margin: 5px 0 0 16%;
+	position: relative;
+	padding: 0;
+	height: 160px;
+	overflow: auto;
+	border-width: 4px;
+	border-style: solid;
+	border-color: #cee1ef;
+	width: 75%;
+	float: left;
+	line-height: 24px;
+	list-style: none;
+	clear: left;
+}
+.MRP_results a {
+	float: left;
+}
+.MRP_results .MRP_view_post { 
+	margin: 8px 0pt 0pt 0;
+	padding: 0;
+	cursor: pointer;
+	width: 10px;
+	height: 10px;
+	display: block;
+	float: left;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+.MRP_results .MRP_view_post {
+	background: url(images/link.png) no-repeat;
+}
+.MRP_search_utility {
+	overflow: hidden;
+	width: 100%;
+}
+.MRP_results .MRP_view_post:hover {
+	background: url(images/link.png) no-repeat -10px 0;
+}
+.MRP_search_label {
+	display: block;
+	width: 15%;
+	float: left;
+	text-align: right;
+	margin: 5px 1% 0 0;
+}
+.MRP_scope {
+	float: left;
+	width: 43%;
+}
+.MRP_scope label {
+	line-height: 25px;
+	padding: 0 0 0 10px;
+}
+.MRP_loader {
+	height: 16px;
+	width: 16px;
+	margin: 3px 0 0 10px;
+	float: left;
+	background: none;
+}
+.MRP_loader_active {
+	background: url(../../../wp-admin/images/loading.gif) !important;
+}
+.MRP_related_posts_replacement {
+	color: #888;
+}
+.MRP_results ul {
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.MRP_results ul li {
+	line-height: 25px;
+	padding: 3px 0;
+	margin: 0;
+	clear: both;
+	overflow: hidden;
+	width: 75%;
+}
+html>body .MRP_results ul li {
+	width: 100%;
+}
+.MRP_results ul li a {
+	padding: 0 10px;
+}
+.MRP_results ul .alt {
+	background: #f1f1f1;
+	padding: 3px 0;
+}
+.MRP_search {
+	width: 30%;
+	float: left;
+	display: block;
+}
+.MRP_relatedposts_list_label {
+	width: 15%;
+	display: block;
+	float: left;
+	text-align: right;
+	margin: 6px 1% 0 0;
+}
+.MRP_relatedposts_list {
+	overflow: auto;
+	width: 75%;
+	height: 100px;
+	margin: 0;
+	list-style: none;
+	border: solid 1px #dedede;
+	padding: 5px;
+	float: left;
+}
+.MRP_relatedposts_list li {
+	clear: both;
+}
+.MRP_relatedposts_list a {
+	float: left;
+}
