@@ -4,7 +4,7 @@
 	// when searching for related posts
 	
 if( isset( $_GET['mrp_s'] ) ) {
-	
+    
 	require('../../../wp-config.php');
 	
 		// Let's keep this a tool for logged in users
@@ -14,9 +14,11 @@ if( isset( $_GET['mrp_s'] ) ) {
 
 	global $wpdb;
 	
-	$s = $wpdb->escape( $_GET['mrp_s'] );
+	$s = $wpdb->escape( rawurldecode( $_GET['mrp_s'] ) );
 	
 	$scope = (int) $_GET['mrp_scope'];
+	
+	$post_type = $wpdb->escape( $_GET['mrp_post_type'] );
 	
 	$regexp = "[[:<:]]" . $s;
 	
@@ -37,26 +39,26 @@ if( isset( $_GET['mrp_s'] ) ) {
 	
 	}
 	
-	$query = "SELECT ID, post_title, post_type, post_status FROM $wpdb->posts WHERE $where AND ( post_type = 'post' OR post_type = 'page' ) ";
+	$query = "SELECT ID, post_title, post_type, post_status FROM $wpdb->posts WHERE $where AND post_type = '$post_type' ";
+	
 	if( $_GET['mrp_id'] ) {
 		$this_id = (int) $_GET['mrp_id'];
 		$query .= " AND ID != $this_id ";
 	}
-	$query .= "ORDER BY post_date DESC LIMIT 50";
+	$query .= " AND post_status NOT IN ('inherit', 'auto-draft')";
+	$query .= " ORDER BY post_date DESC LIMIT 50";
 	$results = $wpdb->get_results( $query );
 	
 	if( $results ) {
-	
-		echo "<ul>";
+	    
+        echo "<ul>";
 		$n = 1;
 		foreach( $results as $result ) {
 			
 			echo '<li';
 			echo ( $n % 2 ) ? ' class="alt"' : '';
 			echo '> <a href="javascript:void(0)" id="result-'.$result->ID.'" class="MRP_result">';
-			if( $result->post_type == 'page') {
-				echo "<strong>[Page]</strong> - ";
-			}
+
 			echo $result->post_title;
 			if( $result->post_status != 'publish') {
 				echo ' ('.$result->post_status.')';

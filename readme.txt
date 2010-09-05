@@ -1,17 +1,21 @@
 === Microkid's Related Posts ===
 Contributors: microkid
-Tags: related, posts, seo, content, articles, relevant, similar
+Tags: related, posts, seo, content, articles, relevant, similar, custom posts, custom post types
 Requires at least: 2.5
-Tested up to: 2.9.1
+Tested up to: 3.0.1
 Stable tag: trunk
 
 Increase your pageviews and SEO by manually selecting related posts for your content. Easy reciprocal linking of related posts and pages.
 
 == Description ==
 
-This plugin makes it super easy to manually select related posts. You can search and select posts that fit **your** criteria, all from within the write/edit post screen. 
+This plugin makes it super easy to manually select related posts. You can search and select posts that fit **your** criteria, all from within the write/edit post screen.
 
 Creating a system of related posts/pages on your site will result in more page views per unique visitor, and will improve GoogleBots understanding of your content.
+
+Display related posts automatically, using shortcodes, using widgets or use one of the available API functions to add them to your theme
+
+This plugin supports custom post types.
 
 See the official plugin homepage for [Microkids Related Posts](http://www.microkid.net/wordpress/related-posts/ "Wordpress Related Posts") for more info and discussion.
 
@@ -20,6 +24,7 @@ See the official plugin homepage for [Microkids Related Posts](http://www.microk
 * Easily find posts or pages that might be related to the one you are writing with an integrated AJAX powered search utility
 * Easily add and remove relations with a single click. No page reloads, no pop-ups
 * The relationship created works **reciprocal**, which means that if post A is added as related to post B, post B is automatically added as related to post A as well (this option can be turned off easily through the settings panel)
+* Custom post types support
 * Multiple widget support
 * Shortcode support: add the [related-posts] shortcode to your post content to display related posts anywhere you want
 * Automatically display a list of related posts underneath your posts content. No need to add any PHP tags in your template files, but several [functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") available for advanced users.
@@ -36,16 +41,19 @@ See the official plugin homepage for [Microkids Related Posts](http://www.microk
 == Frequently Asked Questions == 
 
 = Does this plugin have a widget? =
-Yes, if your theme supports it you can display related posts as a widget in your dynamic sidebars.
+Yes, if your theme supports it you can display multiple related posts widgets in your dynamic sidebars.
 
 = Does this plugin work with Wordpress versions &lt; 2.5? =
 No, it is not backward compatible with Wordpress version older than 2.5.
 
+= Can I add the related posts to my post text using a shortcode? =
+Yes, you place [related-posts] anywhere in your text to display the related posts wherever you want. Additionally, you can add an attribute "posttype" to the shortcode to display the related posts of a specific post type only. Example: [related-posts posttype=page]
+
 = What will be displayed if there are no related posts? =
 You can use a custom message, or display nothing at all (no text, no code).
 
-= How can I customize the way the related posts are displayed? =
-There is a set of [API functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") available you can use in your themes.
+= I need more options. How can I fully customize the way the related posts are displayed? =
+There is a set of [API functions](http://www.microkid.net/wordpress/related-posts/#API "Microkids Related Posts API functions") available you can use in your themes to display the related posts in any way you can think of.
 
 = I'm having trouble using this plugin. How can I reach you? =
 Please leave me a comment at the [Microkids Related Posts](http://www.microkid.net/wordpress/related-posts/ "Microkids Related Posts") homepage.
@@ -53,10 +61,17 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 == Screenshots ==
 
 1. The plugin will appear in the write/edit post screen.
-2. The Related Posts options page
-3. The Related Posts widget
+2. The Related Posts options page allows you completely customize the way related posts are displayed
+3. The Related Posts widget 
 
 == Change Log ==
+
+= 3.0 =
+* Added support for WP 3.0 custom post types - Create relations with custom post types, display related posts in one list or seperate them by post type
+* Added controlled order - You can now order the related posts by date, title or random
+* Added internationalization - You can now create display the plugin settings page in your own language. I have already added Dutch, please send your language files to microkid.net@gmail.com
+* Fixed support for non Western Latin characters (Cyrillic, Arabic, etc.)
+* Plus a zillion small bugfixes and enhancements!
 
 = 2.5 =
 * Improved the AJAX search utility with a more fluent way of updating the results list
