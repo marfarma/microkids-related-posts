@@ -69,7 +69,7 @@ Please leave me a comment at the [Microkids Related Posts](http://www.microkid.n
 = 3.0 =
 * Added support for WP 3.0 custom post types - Create relations with custom post types, display related posts in one list or seperate them by post type
 * Added controlled order - You can now order the related posts by date, title or random
-* Added internationalization - You can now create display the plugin settings page in your own language. I have already added Dutch, please send your language files to microkid.net@gmail.com
+* Added internationalization - You can now display the plugin settings page in your own language. I have already added Dutch, please send your language files to microkid.net@gmail.com
 * Fixed support for non Western Latin characters (Cyrillic, Arabic, etc.)
 * Plus a zillion small bugfixes and enhancements!
 
