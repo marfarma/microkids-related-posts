@@ -4,7 +4,7 @@ Plugin Name: Microkid's Related Posts
 Plugin URI: http://www.microkid.net/wordpress/related-posts/
 Description: Display a set of manually selected related items with your posts
 Author: Microkid
-Version: 3.0
+Version: 3.0.1
 Author URI: http://www.microkid.net/
 
 This software is distributed in the hope that it will be useful,
@@ -438,10 +438,10 @@ function MRP_get_related_posts_html( $post_id, $hide_unpublished = true, $post_t
 	$output = "<div id=\"related-posts\">\n";
 	# Loop through different post types
     foreach( $related_posts as $post_type => $post_type_related_posts ) {
+        # This filters %posttype% from the title
+        $title = MRP_get_title( $options['title'], $post_type );
         if( count( $post_type_related_posts ) ) {
 			$output .= "<div id=\"related-posts-$post_type\" class=\"related-posts-type\">\n";
-			# This filters %posttype% from the title
-			$title = MRP_get_title( $options['title'], $post_type );
 			# Create the title with the selected HTML header
 			$output .= "<".$options['header_element'].">".$title."</".$options['header_element'].">\n";
 			$output .= "<ul>\n";
@@ -454,13 +454,14 @@ function MRP_get_related_posts_html( $post_id, $hide_unpublished = true, $post_t
 	    # If there are no related posts for this post type
 	    else {
 			if( !$options['hide_if_empty'] ) {
-			    $output = "<div id=\"related-posts-$post_type\" class=\"related-posts-type\">\n";
-				$output .= "<".$options['header_element'].">".$options['title']."</".$options['header_element'].">\n";
+			    $output .= "<div id=\"related-posts-$post_type\" class=\"related-posts-type\">\n";
+				$output .= "<".$options['header_element'].">".$title."</".$options['header_element'].">\n";
 				$output .= "<p>".$options['text_if_empty']."</p>\n";
-				$output = "</div>";
+				$output .= "</div>";
 			}
 			else {
 			    # Show nothing
+			    return "";
 			}
 		}
 	}
